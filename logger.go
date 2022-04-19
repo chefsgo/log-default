@@ -5,7 +5,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/chef-go/chef"
+	"github.com/chefsgo/chef"
 )
 
 type (

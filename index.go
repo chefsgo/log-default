@@ -1,7 +1,7 @@
 package log_default
 
 import (
-	"github.com/chef-go/chef"
+	"github.com/chefsgo/chef"
 )
 
 func Driver() chef.LogDriver {
