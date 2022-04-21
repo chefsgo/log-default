@@ -37,7 +37,7 @@ func (connect *defaultLogConnect) Close() error {
 	return nil
 }
 
-func (connect *defaultLogConnect) Write(log chef.Log) error {
+func (connect *defaultLogConnect) Write(log *chef.Log) error {
 	msg := log.Format()
 	if log.Level <= chef.LogWarning {
 		connect.stderr.Write([]byte(msg + "\n"))
