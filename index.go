@@ -1,14 +1,13 @@
 package log_default
 
 import (
-	"github.com/chefsgo/chef"
+	"github.com/chefsgo/log"
 )
 
-func Driver() chef.LogDriver {
-	return &defaultLogDriver{}
+func Driver() log.Driver {
+	return &defaultDriver{}
 }
 
 func init() {
-	chef.Register("default", Driver())
-	chef.Register("console", Driver())
+	log.Register("default", Driver())
 }

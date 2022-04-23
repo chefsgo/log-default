@@ -3,48 +3,44 @@ package log_default
 import (
 	"io"
 	"os"
-	"sync"
 
-	"github.com/chefsgo/chef"
+	"github.com/chefsgo/log"
 )
 
 type (
-	defaultLogDriver struct {
+	defaultDriver struct {
 	}
-	defaultLogConnect struct {
-		config         chef.LogConfig
+	defaultConnect struct {
+		config         log.Config
 		stdout, stderr io.Writer
-	}
-	defaultLogWriter struct {
-		lock sync.Mutex
 	}
 )
 
-func (driver *defaultLogDriver) Connect(config chef.LogConfig) (chef.LogConnect, error) {
-	return &defaultLogConnect{
+func (driver *defaultDriver) Connect(config log.Config) (log.Connect, error) {
+	return &defaultConnect{
 		config: config, stdout: os.Stdout, stderr: os.Stderr,
 	}, nil
 }
 
 //打开连接
-func (connect *defaultLogConnect) Open() error {
+func (connect *defaultConnect) Open() error {
 	return nil
 }
 
 //关闭连接
-func (connect *defaultLogConnect) Close() error {
+func (connect *defaultConnect) Close() error {
 	connect.Flush()
 	return nil
 }
 
-func (connect *defaultLogConnect) Write(log *chef.Log) error {
-	msg := log.Format()
-	if log.Level <= chef.LogWarning {
-		connect.stderr.Write([]byte(msg + "\n"))
+func (connect *defaultConnect) Write(msg *log.Log) error {
+	body := msg.Format()
+	if msg.Level <= log.LevelWarning {
+		connect.stderr.Write([]byte(body + "\n"))
 	} else {
-		connect.stdout.Write([]byte(msg + "\n"))
+		connect.stdout.Write([]byte(body + "\n"))
 	}
 	return nil
 }
-func (connect *defaultLogConnect) Flush() {
+func (connect *defaultConnect) Flush() {
 }
